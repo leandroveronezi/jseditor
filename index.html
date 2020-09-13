@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+
+    <title>JS IDE</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+
+        #editor {
+            height: 100%;
+        }
+        body > div:first-child {
+            height: 60%;
+            display: flex;
+            flex-direction: column;
+        }
+        body > div:nth-child(2) {
+            height: 40%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            font-family: "Ubuntu Mono", monospace;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #console {
+            height: 100%;
+            margin: 0;
+            overflow-y: auto;
+            font-family: "Ubuntu Mono", monospace;
+        }
+        
+        [action] {
+            cursor: pointer;
+        }
+        nav > span {
+            display: block;
+        }
+        
+       
+        .ml-4 {
+            margin-left: 1.5rem!important;
+        }
+                        
+        .ml-8 {
+            margin-left: 3rem!important;
+        }
+        
+        .ml-12 {
+            margin-left: 4.5rem!important;
+        }
+        
+        .ml-16 {
+            margin-left: 6rem!important;
+        }
+                
+        .ml-20 {
+            margin-left: 7.5rem!important;
+        }        
+        
+        .ml-24 {
+            margin-left: 9rem!important;
+        }
+        
+        .ml-28 {
+            margin-left: 10.5rem!important;
+        }
+        
+        .ml-32 {
+            margin-left: 12rem!important;
+        }
+        
+        .ml-36 {
+            margin-left: 13.5rem!important;
+        }
+        
+        
+        
+        
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <nav class="text-light d-flex align-items-center pl-2 bg-dark">
+            <span>Editor</span>
+            <div class="btn btn-dark" action>EXECUTE</div>
+        </nav>
+        <div id="editor"></div>
+    </div>
+    
+    <div>
+        <nav class="text-light d-flex align-items-center pl-2 bg-dark">
+            <span>Dev Console</span>
+            <div class="btn btn-dark" action>CLEAR</div>
+        </nav>
+        <pre id="console" class="border border-dark bg-light text-dark p-2"></pre>
+    </div>
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        
+    <script src="./ace/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./ace/src-min/ext-language_tools.js"></script>
+    <script src="./ace/src-min/keybinding-vscode.js"></script>            
+      
+    <script src="./editor.js"></script>
+    <script src="./console.js"></script>    
+    
+    <script>
+    
+        window.onload = () => {
+                                            
+            editor = new Editor( "editor" );
+            newConsole = new Console( "console" );
+            
+            $("[action]").get(0).addEventListener('click', function (){ editor.codeRun(); });            
+            $("[action]").get(1).addEventListener('click', function (){ newConsole.clear(); });
+                
+        };    
+    
+    
+    </script>    
+    
+        
+</body>
+
+</html>
