@@ -3,7 +3,121 @@ class Editor {
     
     constructor (elEditor) {
 
-        $("#" + elEditor).text(`function echo(m) {\n\treturn m;\n}\nconsole.log(echo("Hello World"));`);
+        $("#" + elEditor).text(`
+        
+        
+
+
+async function getPhoto() {
+
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+        });
+
+        if (!stream.getVideoTracks().length) throw new Error("Nenhuma webcam encontrada");
+
+        const capture = new ImageCapture(stream.getVideoTracks()[0]);
+
+        const photoBlob = await capture.takePhoto({ imageWidth: 640 });
+
+        var img = await createImageBitmap(photoBlob);
+
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        let ratio = Math.min(canvas.width / img.width, canvas.height / img.height);
+        let x = (canvas.width - img.width * ratio) / 2;
+        let y = (canvas.height - img.height * ratio) / 2;
+        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+        canvas.getContext("2d").drawImage(img, 0, 0, img.width, img.height, x, y, img.width * ratio, img.height * ratio);
+
+        return canvas.toDataURL("image/jpg");
+    } catch (err) {
+        console.error(err);
+        return "ERRO:" + err;
+    }
+
+};
+
+var video;
+
+const getPhoto2 = () => new Promise(
+    (resolve, reject) => {
+
+        if (!video) {
+            video = document.createElement('video');
+            video.style.display = false
+            video.autoplay = true;
+        }
+
+        navigator.mediaDevices
+            .getUserMedia({
+                video: {
+                    width: 480,
+                    height: 640,
+                },
+            })
+            .then((stream) => {
+
+                if (!stream.getVideoTracks().length) {
+                    reject("Nenhuma webcam encontrada")
+                }
+
+                video.addEventListener('playing', () => {
+
+                    var canvas = document.createElement("canvas");
+
+                    var settings = stream.getTracks()[0].getSettings();
+                    canvas.width = settings.width;
+                    canvas.height = settings.height;
+
+
+                    canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                    video.remove();
+                    video = null;
+
+                    resolve(canvas.toDataURL("image/png"))
+
+                });
+
+                video.srcObject = stream;
+                video.play();
+
+            })
+            .catch((error) => {
+                reject(error);
+            });
+
+    }
+)
+
+async function teste() {
+
+    try {
+        var foto = "";
+
+        if (typeof ImageCapture === "function") {
+            foto = await getPhoto();
+        } else {
+            foto = await getPhoto2();
+        }
+
+        console.log(foto)
+
+    } catch (err) {
+        console.error(err);
+    }
+
+};
+
+teste()        
+        
+        
+        
+        `);
         
         this.elEditor = elEditor;
         this.fileName = "script.js";
